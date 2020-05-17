@@ -1,0 +1,8 @@
+Django==3.0.6
+Pillow
+djangorestframework
+Keras
+numpy==1.16.0
+opencv-python
+h5py
+tensorflow==1.14.0
