@@ -1,1 +1,52 @@
-<h1>Hello world</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>IMG TO CODE</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="kzfavicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div class="container pt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <hr class="my-4">
+        <form class="pt-5">
+            <div class="form-group">
+                <label for="file">Select file</label>
+                <input type="file" class="form-control-file" id="file" name="file" accept="image/*" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+    <h3>Result:</h3>
+    <div id="result"></div>
+</div>
+</body>
+<script>
+    $('form').submit(function (e) {
+        console.log(e);
+        e.preventDefault();
+        console.log('submit')
+        const fd = new FormData();
+        fd.append('file', $('#file')[0].files[0] );
+
+        $.ajax({
+            url: "http://52.184.23.234/upload",
+            data: fd,
+            processData: false,
+            type: 'POST',
+            contentType: 'multipart/form-data'
+        }).done(function(html) {
+            console.log(html);
+            $('#result').html(html);
+        });
+    });
+</script>
+</html>

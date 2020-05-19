@@ -6,3 +6,4 @@ numpy==1.16.0
 opencv-python
 h5py
 tensorflow==1.14.0
+django-cors-headers

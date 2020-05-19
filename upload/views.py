@@ -3,10 +3,16 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from upload.serializers import UserSerializer, GroupSerializer
+from django.template import loader
+from django.http import HttpResponse
+from rest_framework.views import APIView
 
 # Create your views here.
+
 def index(request):
-    return render(request, 'index.html', {})
+    context = {}
+    return render(request, 'index.html', context)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
