@@ -25,7 +25,7 @@ SECRET_KEY = '6t%x1z@@*+e!tso!$j6(e0xo!7(!l$k+_3v)6i8)1-t=apwfmp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.img2code.kz']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '52.184.23.234']
 
 # Application definition
 
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'upload',
     'uploadimage'
 ]
