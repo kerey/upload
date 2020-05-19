@@ -12,7 +12,7 @@ def test(input_path):
 
     trained_weights_path = 'pix2code/bin'
     trained_model_name = 'pix2code'
-    output_path = 'pix2code/code'
+    output_path = 'static/code'
     search_method = 'greedy'
 
     meta_dataset = np.load("{}/meta_dataset.npy".format(trained_weights_path))
