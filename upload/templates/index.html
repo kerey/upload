@@ -40,9 +40,9 @@
         $.ajax({
             url: "http://35.246.253.229/upload/",
             data: fd,
-            processData: false,
             type: 'POST',
-            contentType: 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
         }).done(function(html) {
             console.log(html);
             $('#result').html(html);
