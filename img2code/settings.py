@@ -25,7 +25,7 @@ SECRET_KEY = '6t%x1z@@*+e!tso!$j6(e0xo!7(!l$k+_3v)6i8)1-t=apwfmp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '52.184.23.234']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '35.246.253.229']
 
 CORS_ORIGIN_ALLOW_ALL=True
 
