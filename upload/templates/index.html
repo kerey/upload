@@ -9,33 +9,91 @@
     <link rel="icon" type="image/x-icon" href="kzfavicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <style>
+        .page {
+            padding-top: 3rem;
+        }
+        .jumbotron {
+            margin-bottom: 1.5rem;
+        }
+        #result-heading {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        #spinner {
+            display: none;
+            justify-content: center;
+            padding-top: 3rem;
+        }
+        #spinner svg {
+            width: 3.5rem;
+            animation: rotating 2s linear infinite;
+        }
+        @keyframes rotating {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        #result {
+            display: none;
+            width: 100%;
+            height: 600px;
+        }
+        footer {
+            border-top: 1px solid rgba(0,0,0,.6);
+            text-align: center;
+            padding-top: 1rem;
+            margin-top: 2rem;
+            padding-bottom: 1.5rem;
+        }
+    </style>
 </head>
 <body>
-<div class="container pt-5">
+<div class="container page">
     <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <hr class="my-4">
-        <form class="pt-5">
+        <h1 class="display-4">Img2code</h1>
+        <p class="lead">
+            Предоставьте верстку сайта нейронной сети!<br>
+            Ваш ui картинка превратиться на html/css код
+        </p>
+        <hr class="">
+        <form class="pt-5" id="form">
             <div class="form-group">
-                <label for="file">Select file</label>
+                <label for="file">Выберите файл</label>
                 <input type="file" class="form-control-file" id="file" name="file" accept="image/*" required />
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">Генерировать код</button>
         </form>
     </div>
-    <h3>Result:</h3>
-    <div id="result"></div>
+    <div id="spinner">
+        <svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='spinner' class='svg-inline--fa fa-spinner fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z'></path></svg>
+    </div>
+
+    <div id="result-heading">
+        <h3>Результат:</h3>
+        <button class="btn btn-success" onclick="downloadFile()">Скачать файл</button>
+    </div>
+    <iframe id="result"></iframe>
+    <footer>
+        <p>&copy; Akzholtay Dagzhanuly 2020</p>
+    </footer>
 </div>
 </body>
+
 <script>
+    var htmlFile;
     $('form').submit(function (e) {
-        console.log(e);
         e.preventDefault();
-        console.log('submit')
         const fd = new FormData();
         fd.append('file', $('#file')[0].files[0] );
+
+        $('#spinner').css({display: 'flex'});
 
         $.ajax({
             url: "http://35.246.253.229/upload/",
@@ -44,9 +102,30 @@
             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
             processData: false, // NEEDED, DON'T OMIT THIS
         }).done(function(html) {
-            console.log(html);
-            $('#result').html(html);
+            htmlFile = html;
+            $('#result').css({display: 'inherit'}).attr('srcdoc', html);
+            $('#result-heading').css({display: 'flex'});
+            $('#spinner').css({display: 'none'});
+        }).fail((err) => {
+            console.log(err);
+            $('#result-heading').html('Произошла ошибка. Попробуйте заново!').css({color: 'red'});
+            $('#spinner').css({display: 'none'});
         });
     });
+    function downloadFile() {
+        download('index.html', htmlFile);
+    }
+    function download(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
 </script>
 </html>
